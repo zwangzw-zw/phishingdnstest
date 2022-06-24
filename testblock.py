@@ -14,16 +14,15 @@ import urllib.parse
 
 # DnsHostname = 'dns.quad9.net'
 # DnsIP='8.8.8.8'
-# DnsHostname='https://1.1.1.1/dns-query'
+DnsHostname='https://1.1.1.2/dns-query'
 # DnsHostname='https://blitz.ahadns.com/1:2.8.20.22'
 # DnsHostname='https://blitz.ahadns.com/1:1.2.3.4.5.6.7.8.9.10.11.12.13.14.15.16.17.18.19.20.21.22.23.24.25.26.27'
 # DnsIP ='103.247.36.36' # DNSFilter
+# DnsHostname='7ee455.dns.nextdns.io'
 
-# feedurl=['https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-NEW-today.txt']
-# feedurl=['https://openphish.com/feed.txt']
 
 feedurl = ['https://raw.githubusercontent.com/mitchellkrogza/Phishing.Database/master/phishing-domains-NEW-today.txt',
-           'https://openphish.com/feed.txt'
+           #'https://openphish.com/feed.txt'
            ]
 
 BlockedIPs = [
@@ -56,7 +55,7 @@ def resolve(domain):
             ipaddr = re.findall('\d+\.\d+\.\d+\.\d+', dns.query.udp(dns.message.make_query(
                 dns.name.from_text(domain), dns.rdatatype.A), DnsIP, timeout=5).to_text())[0]
 
-        #print("{} with {} on {}: {}".format(domain, QueryMethod, DnsIP if QueryMethod == 'UDP' else DnsHostname, ipaddr))
+        print("{} with {} on {}: {}".format(domain, QueryMethod, DnsIP if QueryMethod == 'UDP' else DnsHostname, ipaddr))
         #time.sleep(1)
         return(ipaddr)
     except:
@@ -133,7 +132,7 @@ if __name__ == '__main__':
         result = [resolve(urllib.parse.urlparse(line.strip()).netloc.decode() if bool(re.search("http", line.decode())) else line.decode().strip()) for line in data]
     else:
         print("Multiple Thread ...")
-        result = Parallel(n_jobs=10)(delayed(resolve)(urllib.parse.urlparse(line.strip()).netloc.decode() if bool(re.search("http", line.decode())) else line.decode().strip()) for line in data)
+        result = Parallel(n_jobs=15,backend='threading')(delayed(resolve)(urllib.parse.urlparse(line.strip()).netloc.decode() if bool(re.search("http", line.decode())) else line.decode().strip()) for line in data)
 
     # Filter None from result
     result = list(filter(lambda x: x is not None, result))
