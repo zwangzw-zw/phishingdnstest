@@ -109,8 +109,7 @@ if __name__ == '__main__':
         QueryMethod = "UDP"
         print("UDP: {}".format(DnsIP))
     else:
-        DnsIP = socket.gethostbyname(urllib.parse.urlparse(DnsHostname).netloc if bool(
-            re.search("^https", DnsHostname)) else DnsHostname)
+        DnsIP = socket.gethostbyname(urllib.parse.urlparse(DnsHostname).netloc if bool(re.search("^https", DnsHostname)) else DnsHostname)
 
         if bool(re.search('^https', DnsHostname)):
             QueryMethod = "DOH"
@@ -126,17 +125,15 @@ if __name__ == '__main__':
     data = list(set(itertools.chain.from_iterable(
         [urllib.request.urlopen(i).readlines() for i in feedurl])))
 
-    # Perform DNS test. If possible, resolve domains in parallel
+    # Perform DNS test. If possible, resolve domains in parallel. Also parse link into domain
     try:
         from joblib import Parallel, delayed
     except:
         print("Single Thread ...")
-        result = [resolve(urllib.parse.(line.strip()).netloc.decode() if bool(
-            re.search("http", line.decode())) else line.decode().strip()) for line in data]
+        result = [resolve(urllib.parse.urlparse(line.strip()).netloc.decode() if bool(re.search("http", line.decode())) else line.decode().strip()) for line in data]
     else:
         print("Multiple Thread ...")
-        result = Parallel(n_jobs=10)(delayed(resolve)(urllib.parse.urlparse(line.strip()).netloc.decode(
-        ) if bool(re.search("http", line.decode())) else line.decode().strip()) for line in data)
+        result = Parallel(n_jobs=10)(delayed(resolve)(urllib.parse.urlparse(line.strip()).netloc.decode() if bool(re.search("http", line.decode())) else line.decode().strip()) for line in data)
 
     # Filter None from result
     result = list(filter(lambda x: x is not None, result))
