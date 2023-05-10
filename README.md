@@ -51,7 +51,14 @@ The script will print the following information:
 - The DNS resolver used for the queries
 - The top 10 most common non-blocked IP addresses
 
+
+## Acknowledgments
+
+- A special thanks to OpenAI's ChatGPT for assisting in documentation.
+
 ## License
 
 This project is open source and available under the [BSD 3-Clause License](LICENSE).
+
+
 
