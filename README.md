@@ -1,4 +1,4 @@
-# DNS Resolver Project
+# Phishing DNS Resolver Block Test
 
 ## Introduction
 
