@@ -16,25 +16,25 @@ This project requires Python 3 and the following Python packages:
 
 You can install these dependencies using pip:
 
-\`\`\`
+```
 pip install dnspython urllib3 futures
-\`\`\`
+```
 
 ## Usage
 
 To run the script, use the following command:
 
-\`\`\`
+```
 python dns_resolver.py [DNS server]
-\`\`\`
+```
 
 Replace `[DNS server]` with the hostname or IP address of the DNS server you want to use. This argument is optional.
 
 The script will print the results to the console. You can redirect the output to a file using the `>` operator:
 
-\`\`\`
+```
 python dns_resolver.py > results.txt
-\`\`\`
+```
 
 ## Customization
 
