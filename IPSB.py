@@ -13,9 +13,9 @@ def IPSB(ip):
         province = data.get("region")
         city = data.get("city")
         isp = data.get("isp")
-
-        location_info = ", ".join(filter(None, [country, province, city, district, isp]))
-
+        
+        location_info = ", ".join(filter(None, [country, province, city, isp]))
+        
         return location_info
     except requests.exceptions.RequestException as e:
         return {"error": "api.ip.sb 请求超时(2s)，请切换其他API使用"}
